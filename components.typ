@@ -1,4 +1,4 @@
-#import "@preview/cetz:0.0.1"
+#import "@preview/cetz:0.2.2"
 
 #import cetz.draw: line, circle, fill, rect
 
@@ -6,28 +6,31 @@
 #import "utils.typ": anchors
 
 #let geographical-anchors(pts) = {
-    assert(type(pts) == "array" and pts.len() == 8, message: "Invalid format for geographical anchor positions " + repr(pts))
-    let headings = ("west", "north west", "north", "north east", "east", "south east", "south", "south west")
-    for i in range(0, 8) {
-        anchor(headings.at(i), pts.at(i))
-    }
+  assert(
+    type(pts) == "array" and pts.len() == 8,
+    message: "Invalid format for geographical anchor positions " + repr(pts),
+  )
+  let headings = ("west", "north west", "north", "north east", "east", "south east", "south", "south west")
+  for i in range(0, 8) {
+    anchor(headings.at(i), pts.at(i))
+  }
 }
 
 
 
 /// Resistive bipoles
 
-/// Short circuit 
+/// Short circuit
 /// type: path-style
 /// nodename: shortshape
 /// class: default
 #let short = {
   line((-0.5, 0), (0.5, 0))
   anchors((
-    north: (0,0),
-    south: (0,0),
-    label: (0,0),
-    annotation: (0,0),
+    north: (0, 0),
+    south: (0, 0),
+    label: (0, 0),
+    annotation: (0, 0),
   ))
 }
 
@@ -37,24 +40,24 @@
 /// Aliases: american resistor
 /// Class: resistors
 #let R = {
-  let step = 1/6
-  let height = 5/14
+  let step = 1 / 6
+  let height = 5 / 14
   let sgn = -1
   line(
     (-0.5, 0),
-    (rel: (step/2, height/2)),
+    (rel: (step / 2, height / 2)),
     ..for _ in range(5) {
       ((rel: (step, height * sgn)),)
       sgn *= -1
     },
     (0.5, 0),
-    fill: none
+    fill: none,
   )
   anchors((
-    north: (0, height/2),
-    south: (0, -height/2),
+    north: (0, height / 2),
+    south: (0, -height / 2),
     label: (0, height),
-    annotation: "south"
+    annotation: "south",
   ))
 }
 
@@ -69,7 +72,7 @@
 /// aliases: american current source
 /// class: sources
 #let isourceAM = {
-  circle((0,0), radius: 0.5, name: "c")
+  circle((0, 0), radius: 0.5, name: "c")
   line(((-0.3, 0)), (rel: (0.6, 0)), mark-end: ">", fill: black)
 
   anchors((
@@ -90,7 +93,7 @@
     (-0.05, -0.05),
     (-0.05, 0.05),
     close: true,
-    fill: black
+    fill: black,
   )
   anchors((
     north: (0, 0.05),
@@ -116,10 +119,10 @@
 }
 
 /// Connected terminal
-/// type: node 
+/// type: node
 #let circ = {
-    fill(black)
-    ocirc
+  fill(black)
+  ocirc
 }
 
 /// Diamond-square terminal
@@ -137,7 +140,7 @@
     "east",
     "south",
     "west",
-    close: true
+    close: true,
   )
 }
 
@@ -147,7 +150,7 @@
   fill(black)
   rect(
     (-0.05, -0.05),
-    (0.05, 0.05)
+    (0.05, 0.05),
   )
   anchors((
     north: (0, 0.05),
@@ -162,20 +165,26 @@
 /// Operational amplifier
 #let op-amp = {
   line(
-    (0.8, 0),
-    (-0.8, -1),
-    (-0.8, 1),
-    close: true
+    (0.5, 0),
+    (-0.5, -.5),
+    (-0.5, .5),
+    close: true,
   )
 
-  
+
 
   anchors((
     north: (0, 1),
     south: (0, -1),
+    bout: (0.5, 0),
     east: (1, 0),
     west: (-1, 0),
   ))
+}
+
+#let op-not = {
+  op-amp
+  parts.not-circle
 }
 
 /// Logic gates
@@ -250,6 +259,7 @@
 
   // Amplifiers
   "op amp": op-amp,
+  "op not": op-not,
 
   // Logic gates
   "and gate": and-gate,

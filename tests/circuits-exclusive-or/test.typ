@@ -1,11 +1,11 @@
 #set page(width: auto, height: auto, margin: 0.5cm)
-#import "@preview/cetz:0.0.1"
+#import "@preview/cetz:0.2.2"
 
 #cetz.canvas({
   import cetz.draw: line, content
   import "../../circuitypst.typ": node, to
 
-  node("nand gate", (0,1), name: "g1")
+  node("nand gate", (0, 1), name: "g1")
   content("g1.out", [#h(0.5em) Q], anchor: "left")
   line("g1.in 1", (rel: (0, 0.5)), name: "l1")
   line("g1.in 2", (rel: (0, -0.5)), name: "l2")
@@ -21,7 +21,7 @@
   line("l5.end", (rel: (-0.5, 0)), name: "l7")
   content("l6.end", [A #h(0.5em)], anchor: "right")
   content("l7.end", [B #h(0.5em)], anchor: "right")
-  
+
   node("circ", "g4.out")
   node("circ", "l4.end")
   node("circ", "l5.end")

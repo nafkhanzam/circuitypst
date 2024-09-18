@@ -1,9 +1,13 @@
 #set page(width: auto, height: auto, margin: 0.5cm)
-#import "@preview/cetz:0.0.1"
+#import "@preview/cetz:0.2.2"
 
-#cetz.canvas(length: 1cm, debug: false, {
-  import cetz.draw: line, content
-  import "../../circuitypst.typ": node, to
+#cetz.canvas(
+  length: 1cm,
+  debug: false,
+  {
+    import cetz.draw: line, content
+    import "../../circuitypst.typ": node, to
 
-  node("xor gate", (0,-1.5), name: "g2")
-})
+    node("xor gate", (0, -1.5), name: "g2")
+  },
+)
