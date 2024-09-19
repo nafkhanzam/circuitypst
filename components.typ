@@ -191,6 +191,10 @@
 
 /// AND gate
 /// type: node, fillable
+#let n-and-gate(n) = {
+  parts.n-and-gate-body(n)
+  parts.n-logic-gate-legs(n)
+}
 #let and-gate = {
   parts.and-gate-body
   parts.logic-gate-legs
@@ -198,6 +202,13 @@
 
 /// NAND gate
 /// type: node, fillable
+#let n-nand-gate(n) = {
+  parts.n-and-gate-body(n)
+  parts.not-circle
+  // circle((rel: (0.1, 0), to: "bout"), radius: 0.1)
+  // anchor("bout", (rel: (0.1, 0)))
+  parts.logic-gate-legs
+}
 #let nand-gate = {
   parts.and-gate-body
   parts.not-circle
@@ -208,6 +219,10 @@
 
 /// OR gate
 /// type: node, fillable
+#let n-or-gate(n) = {
+  parts.n-or-gate-body(n)
+  parts.n-logic-gate-legs(n)
+}
 #let or-gate = {
   parts.or-gate-body
   parts.logic-gate-legs
@@ -215,6 +230,11 @@
 
 /// NOR gate
 /// type: node, fillable
+#let n-nor-gate(n) = {
+  parts.n-or-gate-body(n)
+  parts.not-circle
+  parts.n-logic-gate-legs(n)
+}
 #let nor-gate = {
   parts.or-gate-body
   parts.not-circle
@@ -223,6 +243,11 @@
 
 /// XOR gate
 /// type: node, fillable
+#let n-xor-gate(n) = {
+  parts.n-or-gate-body(n)
+  parts.n-logic-gate-legs(n)
+  parts.xor-bar
+}
 #let xor-gate = {
   parts.or-gate-body
   parts.logic-gate-legs
@@ -231,6 +256,12 @@
 
 /// XNOR gate
 /// type: node, fillable
+#let n-xnor-gate(n) = {
+  parts.n-or-gate-body(n)
+  parts.not-circle
+  parts.n-logic-gate-legs(n)
+  parts.xor-bar
+}
 #let xnor-gate = {
   parts.or-gate-body
   parts.not-circle
@@ -262,10 +293,32 @@
   "op not": op-not,
 
   // Logic gates
-  "and gate": and-gate,
-  "nand gate": nand-gate,
-  "or gate": or-gate,
-  "nor gate": nor-gate,
-  "xor gate": xor-gate,
-  "xnor gate": xnor-gate
+) + range(
+  2,
+  5,
+).map(i => {
+  if i == 2 {
+    i = ""
+    (
+      i + "and gate": and-gate,
+      i + "nand gate": nand-gate,
+      i + "or gate": or-gate,
+      i + "nor gate": nor-gate,
+      i + "xor gate": xor-gate,
+      i + "xnor gate": xnor-gate,
+    )
+  } else {
+    let si = str(i)
+    (
+      si + "and gate": n-and-gate(i),
+      si + "nand gate": n-nand-gate(i),
+      si + "or gate": n-or-gate(i),
+      si + "nor gate": n-nor-gate(i),
+      si + "xor gate": n-xor-gate(i),
+      si + "xnor gate": n-xnor-gate(i),
+    )
+  }
+}).fold(
+  (:),
+  (a, b) => a + b,
 )
